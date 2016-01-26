@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>منص قيم - <?php echo $myUser->user_name; ?></title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="stylesheet" href="dashboard/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="dashboard/bootstrap/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="dashboard/dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="dashboard/dist/css/skins/skin-green-light.min.css">
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="hold-transition skin-green-light sidebar-mini">
+        <div class="wrapper">
+            <header class="main-header">
+                <a href="dashboard.php" class="logo">
+                    <span class="logo-lg"><b>منصة قيم</b></span>
+                </a>
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <a href="#" class="sidebar-toggle visible-sm visible-xs" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="dashboard.php?help">مساعدة</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="dashboard.php?contact">تواصل</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li><a href="login.php?logout">خروج</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <aside class="main-sidebar">
+                <section class="sidebar"><br>
+                    <div class="user-panel">
+                        <div class="pull-right image">
+                            <img src="dashboard/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        </div>
+                        <div class="pull-right info">
+                            <p><?php echo $myUser->user_name; ?></p>
+                            <a href="#">متصل <i class="fa fa-circle text-success"></i></a>
+                        </div>
+                    </div><br>
+                    <ul class="sidebar-menu">
+                        <li class="header"><?php echo $myUser->user_orgnization; ?> - <?php echo $myUser->user_class; ?></li>
+                        <li class="header"><?php echo $myUser->user_mark; ?> : مجموع النقاط</li>
+                        <br>
+                        <li <?php if(isset($_GET["courses"])){echo 'class="active"';} ?>><a href="dashboard.php?courses"><span>المسارات التدريبية</span></a></li>
+                        <li <?php if(isset($_GET["club"])){echo 'class="active"';} ?> ><a href="dashboard.php?club"><span>نادي الحوار</span></a></li>
+                    </ul>
+                </section>
+            </aside>
+            <div class="content-wrapper" style="text-align: right">
+                
+                 
+                    <?php
+                        if (isset($_GET["courses"])) {include_once ("dashboard/views/courses.php");}
+                        elseif (isset($_GET["help"])) {include_once ("dashboard/views/help.php");}
+                        elseif (isset($_GET["course"])) {include_once ("dashboard/views/course_details.php");}
+                        elseif (isset($_GET["contact"])) {include_once ("dashboard/views/contact.php");}
+                        elseif (isset($_GET["club"])) {include_once ("dashboard/views/club.php");}
+                        else {include_once ("dashboard/views/courses.php");}
+                    ?>
+                    
+            </div>
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                </div>
+                مبادرة منصة قيم - احد المبادرات الممولة من برنامج التمكين الديموقراطي
+            </footer>
+
+            <div class="control-sidebar-bg"></div>
+        </div>
+
+        <script src="dashboard/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <script src="dashboard/bootstrap/js/bootstrap.min.js"></script>
+        <script src="dashboard/dist/js/app.min.js"></script>
+        <script type="text/javascript" src="dashboard/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    </body>
+</html>
