@@ -1,0 +1,4 @@
+<Files ~ "\.(htaccess|html)$">
+order allow,deny
+deny from all
+</Files>

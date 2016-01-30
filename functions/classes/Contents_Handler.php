@@ -1,12 +1,12 @@
 <?php
 
-class courses_handler {
+class content_handler {
 
     public $errors = array();
     public $messages = array();
     
     public $courses = array();
-    public $course;
+    public $course = array();
     
     public $materials = array();
     public $material = array();

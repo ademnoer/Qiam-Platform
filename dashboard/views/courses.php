@@ -7,8 +7,7 @@
 
 <?php 
 
-require_once ('functions/classes/courses_handler.php');
-$courseHander = new courses_handler();
+$courseHander = new content_handler();
 $courseHander->getAllCourses();
 $myCourses = $courseHander->courses;
 
