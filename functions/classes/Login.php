@@ -3,25 +3,15 @@
 class Login {
 
     private $db_connection = null;
-
     private $user_id = null;
-
     private $user_name = "";
-
     private $user_email = "";
-
     private $user_is_logged_in = false;
-
     public $user_gravatar_image_url = "";
-
     public $user_gravatar_image_tag = "";
-
     private $password_reset_link_is_valid = false;
-
     private $password_reset_was_successful = false;
-
     public $errors = array();
-
     public $messages = array();
 
     public function __construct() {
@@ -30,7 +20,6 @@ class Login {
 
         if (isset($_GET["logout"])) {
             $this->doLogout();
-
         } elseif (!empty($_SESSION['user_name']) && ($_SESSION['user_logged_in'] == 1)) {
             $this->loginWithSessionData();
 
@@ -102,6 +91,29 @@ class Login {
         return false;
     }
 
+    public function storeMailInDB($text, $type) {
+        if ($this->databaseConnection()) {
+            if ($type == "known") {
+                try {
+                    $mail_insert = $this->db_connection->prepare('INSERT INTO mail_box (user_id, text) VALUES (:user_id, :text)');
+                    $mail_insert->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+                    $mail_insert->bindValue(':text', $text, PDO::PARAM_STR);
+                    $mail_insert->execute();
+                } catch (PDOException $e) {
+                    echo "لا يمكن ارسال هذه الرسالة في الوقت الحالي ، الرجاء المحاولة فيما بعد";
+                }
+            }  else {
+                try {
+                    $mail_insert = $this->db_connection->prepare('INSERT INTO mail_box (user_id, text) VALUES (0, :text)');
+                    $mail_insert->bindValue(':text', $text, PDO::PARAM_STR);
+                    $mail_insert->execute();
+                } catch (PDOException $e) {
+                    echo "لا يمكن ارسال هذه الرسالة في الوقت الحالي ، الرجاء المحاولة فيما بعد";
+                }                
+            }
+        }
+    }
+
     /**
      * Search into database for the user data of user_name specified as parameter
      * @return user data as an object if existing user
@@ -109,7 +121,6 @@ class Login {
      * TODO: @devplanete This returns two different types. Maybe this is valid, but it feels bad. We should rework this.
      * TODO: @devplanete After some resarch I'm VERY sure that this is not good coding style! Please fix this.
      */
-
     private function getUserData($user_name) {
         // if database connection opened
         if ($this->databaseConnection()) {
