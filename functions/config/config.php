@@ -18,6 +18,14 @@ define("DB_NAME", "qiam_db");
 define("DB_USER", "qiam_user");
 define("DB_PASS", "qiam_password");
 
+
+/* use this setting to login to remote  DB
+define("DB_HOST", "qiam-db.csntzsjtssoh.us-east-1.rds.amazonaws.com");
+define("DB_NAME", "qiam_db");
+define("DB_USER", "qiam_user");
+define("DB_PASS", "qiam_password");
+ */
+
 /**
  * Configuration for: Cookies
  * Please note: The COOKIE_DOMAIN needs the domain where your app is,
