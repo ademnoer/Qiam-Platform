@@ -78,7 +78,6 @@ class Registration {
             $this->errors[] = MESSAGE_EMAIL_INVALID;
             echo "Error in MESSAGE_EMAIL_INVALID";
         } else if ($this->databaseConnection()) {
-            echo "Error in databaseConnection<br>";
 
 
             $query_check_user_name = $this->db_connection->prepare('SELECT user_name, user_email FROM users WHERE user_name=:user_name OR user_email=:user_email');
@@ -90,7 +89,6 @@ class Registration {
                 for ($i = 0; $i < count($result); $i++) {
                     $this->errors[] = ($result[$i]['user_name'] == $user_name) ? MESSAGE_USERNAME_EXISTS : MESSAGE_EMAIL_ALREADY_EXISTS;
                 }
-                echo "Error in MESSAGE_USERNAME_EXISTS or MESSAGE_EMAIL_ALREADY_EXISTS<br>";
             } else {
 
                 $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
@@ -109,9 +107,7 @@ class Registration {
                 $query_new_user_insert->execute();
 
                 $user_id = $this->db_connection->lastInsertId();
-  echo "no Error in MESSAGE_USERNAME_EXISTS or MESSAGE_EMAIL_ALREADY_EXISTS<br>";
                 if ($query_new_user_insert) {
-                    echo "query_new_user_insert is susseccful<br>";
                         $this->messages[] = MESSAGE_VERIFICATION_MAIL_SENT;
                         $this->registration_successful = true;
                         $_SESSION['user_name'] = $user_name;
