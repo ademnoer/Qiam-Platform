@@ -58,7 +58,7 @@
                         if ($registration->registration_successful || $registration->verification_successful) { 
                             header("Location: dashboard.php");
                         }else{
-                            echo '<p class="login-box-msg">Please make sure you fill all the field correctly</p>';
+                            echo '<p class="login-box-msg">الرجاء التأكد من صحة المعلومات</p>';
                             require_once ("dashboard/views/register.php");
                         }
                     }else{

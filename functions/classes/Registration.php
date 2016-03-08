@@ -49,25 +49,36 @@ class Registration {
 
         if (strtolower($captcha) != strtolower($_SESSION['captcha'])) {
             $this->errors[] = MESSAGE_CAPTCHA_WRONG;
+            echo "Error in MESSAGE_CAPTCHA_WRONG";
         } elseif (empty($user_name)) {
             $this->errors[] = MESSAGE_USERNAME_EMPTY;
+            echo "Error in MESSAGE_USERNAME_EMPTY";
         } elseif (empty($user_password) || empty($user_password_repeat)) {
             $this->errors[] = MESSAGE_PASSWORD_EMPTY;
+            echo "Error in MESSAGE_PASSWORD_EMPTY";
         } elseif ($user_password !== $user_password_repeat) {
             $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
+            echo "Error in MESSAGE_PASSWORD_BAD_CONFIRM";
         } elseif (strlen($user_password) < 6) {
             $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
+            echo "Error in MESSAGE_PASSWORD_TOO_SHORT";
         } elseif (strlen($user_name) > 64 || strlen($user_name) < 2) {
             $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
+            echo "Error in MESSAGE_USERNAME_BAD_LENGTH";
         } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $user_name)) {
             $this->errors[] = MESSAGE_USERNAME_INVALID;
+            echo "Error in MESSAGE_USERNAME_INVALID";
         } elseif (empty($user_email)) {
             $this->errors[] = MESSAGE_EMAIL_EMPTY;
+            echo "Error in MESSAGE_EMAIL_EMPTY";
         } elseif (strlen($user_email) > 64) {
             $this->errors[] = MESSAGE_EMAIL_TOO_LONG;
+            echo "Error in MESSAGE_EMAIL_TOO_LONG";
         } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
             $this->errors[] = MESSAGE_EMAIL_INVALID;
+            echo "Error in MESSAGE_EMAIL_INVALID";
         } else if ($this->databaseConnection()) {
+            echo "Error in databaseConnection<br>";
 
 
             $query_check_user_name = $this->db_connection->prepare('SELECT user_name, user_email FROM users WHERE user_name=:user_name OR user_email=:user_email');
@@ -79,6 +90,7 @@ class Registration {
                 for ($i = 0; $i < count($result); $i++) {
                     $this->errors[] = ($result[$i]['user_name'] == $user_name) ? MESSAGE_USERNAME_EXISTS : MESSAGE_EMAIL_ALREADY_EXISTS;
                 }
+                echo "Error in MESSAGE_USERNAME_EXISTS or MESSAGE_EMAIL_ALREADY_EXISTS<br>";
             } else {
 
                 $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
@@ -97,19 +109,28 @@ class Registration {
                 $query_new_user_insert->execute();
 
                 $user_id = $this->db_connection->lastInsertId();
-
+  echo "no Error in MESSAGE_USERNAME_EXISTS or MESSAGE_EMAIL_ALREADY_EXISTS<br>";
                 if ($query_new_user_insert) {
-                    if ($this->sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
+                    echo "query_new_user_insert is susseccful<br>";
                         $this->messages[] = MESSAGE_VERIFICATION_MAIL_SENT;
                         $this->registration_successful = true;
-                    } else {
+                        $_SESSION['user_name'] = $user_name;
+                        $_SESSION['user_logged_in'] = 1;
+/* This code is for sending the verification email, it is not needed now, Thanks mother fucker email. 
+ *                    
+ * if ($this->sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
+                        $this->messages[] = MESSAGE_VERIFICATION_MAIL_SENT;
+                        $this->registration_successful = true;
+   echo "query_new_user_insert<br>";
+                } else {
                         $query_delete_user = $this->db_connection->prepare('DELETE FROM users WHERE user_id=:user_id');
                         $query_delete_user->bindValue(':user_id', $user_id, PDO::PARAM_INT);
                         $query_delete_user->execute();
 
                         $this->errors[] = MESSAGE_VERIFICATION_MAIL_ERROR;
+                           echo "MESSAGE_VERIFICATION_MAIL_ERROR<br>";                        
                     }
-                } else {
+*/                } else {
                     $this->errors[] = MESSAGE_REGISTRATION_FAILED;
                 }
             }

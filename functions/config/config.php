@@ -13,17 +13,17 @@
  *          by the way, it's bad style to use "root", but for development it will work.
  * DB_PASS: the password of the above user
  */
-define("DB_HOST", "127.0.0.1");
+define("DB_HOST", "qiam-db.csntzsjtssoh.us-east-1.rds.amazonaws.com");
 define("DB_NAME", "qiam_db");
 define("DB_USER", "qiam_user");
 define("DB_PASS", "qiam_password");
 
 
 /* use this setting to login to remote  DB
-define("DB_HOST", "qiam-db.csntzsjtssoh.us-east-1.rds.amazonaws.com");
+define("DB_HOST", "127.0.0.1");
 define("DB_NAME", "qiam_db");
 define("DB_USER", "qiam_user");
-define("DB_PASS", "qiam_password");
+define("DB_PASS", "qiam_password"); 
  */
 
 /**
